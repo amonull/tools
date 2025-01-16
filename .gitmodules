@@ -4,6 +4,6 @@
 [submodule "fish-utils/unarchive"]
 	path = fish-utils/unarchive
 	url = https://gist.github.com/amonull/dc9bc7003d4a11bc33d7ad64e660b5e9
-[submodule "cd-wrapper"]
-	path = cd-wrapper
+[submodule "fish-utils/cd-wrapper"]
+	path = fish-utils/cd-wrapper
 	url = https://gist.github.com/amonull/4e345b51cf459351c12d8eac00fda9d6
