@@ -1,0 +1,9 @@
+[submodule "fish-utils/prev-cmd"]
+	path = fish-utils/prev-cmd
+	url = https://gist.github.com/amonull/9ec5f32cb5e54189c2ac455364498981
+[submodule "fish-utils/unarchive"]
+	path = fish-utils/unarchive
+	url = https://gist.github.com/amonull/dc9bc7003d4a11bc33d7ad64e660b5e9
+[submodule "cd-wrapper"]
+	path = cd-wrapper
+	url = https://gist.github.com/amonull/4e345b51cf459351c12d8eac00fda9d6
