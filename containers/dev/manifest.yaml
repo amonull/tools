@@ -46,6 +46,7 @@ container:
             bg_pid=$! # get above bg process pid to kill later
             sleep 2
             pgrep $bg_pid && pkill $bg_pid
+        - sh <(curl -L https://nixos.org/nix/install) --no-daemon
         # - eval "$(curl https://get.x-cmd.com)"
         post:
         - |
@@ -73,46 +74,46 @@ image:
         RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install $(cat /tmp/pkgs.txt | xargs)
 
     files:
-    - pkgs.txt: |
-        fuse
-        libfuse2
-        libxi6
-        libxrender1
-        libxtst6
-        mesa-utils
-        libfontconfig
-        libgtk-3-bin
-        tar
-        dbus-user-session
-        socat
-        bison
-        binutils
-        libnss3
-        libasound2-dev
-        build-essential
-        curl
-        libffi-dev
-        libffi8
-        libgmp-dev
-        libgmp10
-        libncurses-dev
-        pkg-config
-        libssl-dev
-        zlib1g-dev
-        libbz2-dev
-        libreadline-dev
-        libsqlite3-dev
-        libncursesw5-dev
-        xz-utils
-        tk-dev
-        libxml2-dev
-        libxmlsec1-dev
-        liblzma-dev
-        llvm
-        git
-        vim
-        clang
-        gcc
-        gdb
-        nasm
-        yq
+        pkgs.txt: |
+            fuse
+            libfuse2
+            libxi6
+            libxrender1
+            libxtst6
+            mesa-utils
+            libfontconfig
+            libgtk-3-bin
+            tar
+            dbus-user-session
+            socat
+            bison
+            binutils
+            libnss3
+            libasound2-dev
+            build-essential
+            curl
+            libffi-dev
+            libffi8
+            libgmp-dev
+            libgmp10
+            libncurses-dev
+            pkg-config
+            libssl-dev
+            zlib1g-dev
+            libbz2-dev
+            libreadline-dev
+            libsqlite3-dev
+            libncursesw5-dev
+            xz-utils
+            tk-dev
+            libxml2-dev
+            libxmlsec1-dev
+            liblzma-dev
+            llvm
+            git
+            vim
+            clang
+            gcc
+            gdb
+            nasm
+            yq
