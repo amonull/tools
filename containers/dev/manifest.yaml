@@ -9,16 +9,19 @@ container:
         pre:
         - |
             set -e
-            CONTAINER_HOME="$1"
+            __CONTAINER_NAME="$1"
+            __CONTAINER_HOME="$2"
             # setup dirs
-            [ -d "$CONTAINER_HOME" ] || mkdir -p "$CONTAINER_HOME"
-            mkdir -p "$CONTAINER_HOME/Documents"
+            [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
+            mkdir -p "$__CONTAINER_HOME/Documents"
             # link dirs
-            ln -s "$HOME/Documents/Programming/" "$CONTAINER_HOME/Documents/Programming"
-            ln -s "$HOME/.gitconfig" "$CONTAINER_HOME/.gitconfig"
+            ln -s "$HOME/Documents/Programming/" "$__CONTAINER_HOME/Documents/Programming"
+            ln -s "$HOME/.gitconfig" "$__CONTAINER_HOME/.gitconfig"
             exit 0
         peri:
-        - curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_GHC_VERSION=latest BOOTSTRAP_HASKELL_CABAL_VERSION=latest BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=A sh
+        - |
+            curl --proto '=https' --tlsv1.2 -sSf https://get-ghcup.haskell.org | BOOTSTRAP_HASKELL_NONINTERACTIVE=1 BOOTSTRAP_HASKELL_GHC_VERSION=latest BOOTSTRAP_HASKELL_CABAL_VERSION=latest BOOTSTRAP_HASKELL_INSTALL_STACK=1 BOOTSTRAP_HASKELL_INSTALL_HLS=1 BOOTSTRAP_HASKELL_ADJUST_BASHRC=A sh
+            echo '. $HOME/.ghcup/env' >> $HOME/.bashrc
         - |
             curl --proto '=https' --tlsv1.2 -sSf https://sh.rustup.rs -o /tmp/rustup.sh
             chmod +x /tmp/rustup.sh
@@ -29,9 +32,9 @@ container:
             curl -o- https://raw.githubusercontent.com/nvm-sh/nvm/${NVM_VERSION}/install.sh | bash
         - |
             curl -fsSL https://pyenv.run | bash
-            echo "export PYENV_ROOT=\"$HOME/.pyenv\"" >> .bashrc
-            echo "[[ -d $PYENV_ROOT/bin ]] && export PATH=\"$PYENV_ROOT/bin:$PATH\"" >> .bashrc
-            echo "eval \"$(pyenv init - bash)\"" >> .bashrc
+            echo 'export PYENV_ROOT="$HOME/.pyenv"' >> $HOME/.bashrc
+            echo '[[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"' >> $HOME/.bashrc
+            echo 'eval "$(pyenv init - bash)"' >> $HOME/.bashrc
         - curl -s "https://get.sdkman.io" | bash
         - |
             LUAVER_VERSION=$(curl -s "https://github.com/DhavalKapil/luaver/releases/tag/v1.1.0" | grep "Link--primary Link" | awk -F '</a>' '{print $1}' | awk -F '>' '{print $NF}' | head -n 1)
@@ -50,19 +53,31 @@ container:
         # - eval "$(curl https://get.x-cmd.com)"
         post:
         - |
+            # NOTE: repeating all steps in bashrc instead of sourcing bashrc as that didnt work
+            [[ -s "$HOME/.gvm/scripts/gvm" ]] && source "$HOME/.gvm/scripts/gvm"
+            export NVM_DIR="$HOME/.config/nvm"
+            [ -s "$NVM_DIR/nvm.sh" ] && \. "$NVM_DIR/nvm.sh"  # This loads nvm
+            export PYENV_ROOT="$HOME/.pyenv"
+            [[ -d $PYENV_ROOT/bin ]] && export PATH="$PYENV_ROOT/bin:$PATH"
+            eval "$(pyenv init - bash)"            
+            export SDKMAN_DIR="$HOME/.sdkman"
+            [[ -s "$HOME/.sdkman/bin/sdkman-init.sh" ]] && source "$HOME/.sdkman/bin/sdkman-init.sh"
+            [ -s ~/.luaver/luaver ] && . ~/.luaver/luaver
+            source ~/perl5/perlbrew/etc/bashrc
+            
             GO_VER=$(gvm listall | grep "go[0-9]*\.[0-9]*\.[0-9]*" | tail -n -1)
+            LUA_VER="$(luaver list -r | tail -n -1)"
+
             gvm install $GO_VER -B
-            gvm use $GO_VER
+            gvm use --default $GO_VER
             nvm install --lts
             pyenv install 3
             pyenv global 3
             sdk install java
             sdk install maven
             sdk install gradle
-            LUA_VER="$(luaver list -r | tail -n -1)"
-            luaver install $LUA_VER
+            printf "%s\\n" yes | luaver install $LUA_VER
             perlbrew install --notest stable
-
 image:
     Containerfile: |
         FROM docker.io/library/ubuntu:latest
@@ -70,50 +85,50 @@ image:
             version="latest" \
             usage="This image is meant to be used with a container manager like distrobox or toolbx" \
             summary="Custom image load with all of my dev tools"
-        COPY {{pkgs.txt}} /tmp/pkgs.txt
+        COPY pkgs.txt /tmp/pkgs.txt
         RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install $(cat /tmp/pkgs.txt | xargs)
 
     files:
-        pkgs.txt: |
-            fuse
-            libfuse2
-            libxi6
-            libxrender1
-            libxtst6
-            mesa-utils
-            libfontconfig
-            libgtk-3-bin
-            tar
-            dbus-user-session
-            socat
-            bison
-            binutils
-            libnss3
-            libasound2-dev
-            build-essential
-            curl
-            libffi-dev
-            libffi8
-            libgmp-dev
-            libgmp10
-            libncurses-dev
-            pkg-config
-            libssl-dev
-            zlib1g-dev
-            libbz2-dev
-            libreadline-dev
-            libsqlite3-dev
-            libncursesw5-dev
-            xz-utils
-            tk-dev
-            libxml2-dev
-            libxmlsec1-dev
-            liblzma-dev
-            llvm
-            git
-            vim
-            clang
-            gcc
-            gdb
-            nasm
-            yq
+    - pkgs.txt: |
+        fuse
+        libfuse2
+        libxi6
+        libxrender1
+        libxtst6
+        mesa-utils
+        libfontconfig
+        libgtk-3-bin
+        tar
+        dbus-user-session
+        socat
+        bison
+        binutils
+        libnss3
+        libasound2-dev
+        build-essential
+        curl
+        libffi-dev
+        libffi8
+        libgmp-dev
+        libgmp10
+        libncurses-dev
+        pkg-config
+        libssl-dev
+        zlib1g-dev
+        libbz2-dev
+        libreadline-dev
+        libsqlite3-dev
+        libncursesw5-dev
+        xz-utils
+        tk-dev
+        libxml2-dev
+        libxmlsec1-dev
+        liblzma-dev
+        llvm
+        git
+        vim
+        clang
+        gcc
+        gdb
+        nasm
+        yq
