@@ -7,3 +7,6 @@
 [submodule "fish-utils/cd-wrapper"]
 	path = fish-utils/cd-wrapper
 	url = https://gist.github.com/amonull/4e345b51cf459351c12d8eac00fda9d6
+[submodule "containers/manifest-builder"]
+	path = containers/manifest-builder
+	url = https://github.com/amonull/container-manifest.git
