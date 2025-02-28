@@ -1,0 +1,47 @@
+container:
+    name: tools
+    home: /home/.containers/tools
+    export:
+    - ani-cli
+    - mangal
+    import:
+    - git
+    - mpv
+    scripts:
+        pre:
+        - |
+            set -e
+            __CONTAINER_NAME="$1"
+            __CONTAINER_HOME="$2"
+            # setup dirs
+            [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
+
+            mkdir -p $HOME/.local/state/ani-cli/
+            mkdir -p $__CONTAINER_HOME/.local/state/ani-cli
+            touch $HOME/.local/state/ani-cli/ani-hsts
+            ln -s $HOME/.local/state/ani-cli/ani-hsts $__CONTAINER_HOME/.local/state/ani-cli/
+
+            exit 0
+        peri:
+        - |
+          mkdir /tmp/yay-install
+          cd /tmp/yay-install
+          distrobox-host-exec git clone https://aur.archlinux.org/yay.git
+          cd yay
+          makepkg -si --noconfirm
+        post:
+        - printf "%s\\n" 1 | yay --noconfirm ani-cli
+        - printf "%s\\n" 1 | yay --noconfirm mangal
+image:
+    Containerfile: |
+        FROM docker.io/library/archlinux:latest
+        LABEL name="tool-box" \
+            version="latest" \
+            usage="This image is meant to be used with a container manager like distrobox or toolbx" \
+            summary="Custom image load with all of my general tools"
+        COPY pkgs.txt /tmp/pkgs.txt
+        RUN pacman --noconfirm -Sy $(< /tmp/pkgs.txt)
+
+    files:
+    - pkgs.txt: |
+        base-devel
