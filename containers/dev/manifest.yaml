@@ -2,7 +2,6 @@ container:
     name: dev
     home: /home/.containers/dev
     export:
-    - yq
     - jetbrains-toolbox.desktop
     import:
     - git
