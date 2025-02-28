@@ -2,9 +2,10 @@ container:
     name: dev
     home: /home/.containers/dev
     export:
-    - git
     - yq
     - jetbrains-toolbox.desktop
+    import:
+    - git
     scripts:
         pre:
         - |
