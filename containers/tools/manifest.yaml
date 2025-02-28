@@ -7,6 +7,7 @@ container:
     import:
     - git
     - mpv
+    - okular
     scripts:
         pre:
         - |
