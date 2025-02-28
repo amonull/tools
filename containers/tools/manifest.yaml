@@ -24,6 +24,7 @@ container:
 
             exit 0
         peri:
+        - echo 'PATH="$HOME/.local/bin:$PATH"' >> $HOME/.bashrc
         - |
           mkdir /tmp/yay-install
           cd /tmp/yay-install
