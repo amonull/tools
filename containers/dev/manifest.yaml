@@ -43,7 +43,7 @@ container:
             curl -L https://install.perlbrew.pl | bash
             echo "source ~/perl5/perlbrew/etc/bashrc" >> ~/.bashrc
         - |
-            JETBRAINS_TOOLBOX_VERSION="2.5.2.35332"
+            JETBRAINS_TOOLBOX_VERSION="2.5.4.38621"
             wget -q -O- https://download.jetbrains.com/toolbox/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}.tar.gz | tar -xz -C /tmp
             /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox &
             # Note: this will be killed when container is stopped again so shouldnt be any problem in letting it be
