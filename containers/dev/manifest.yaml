@@ -46,9 +46,8 @@ container:
             JETBRAINS_TOOLBOX_VERSION="2.5.2.35332"
             wget -q -O- https://download.jetbrains.com/toolbox/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}.tar.gz | tar -xz -C /tmp
             /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox &
-            bg_pid=$! # get above bg process pid to kill later
-            sleep 2
-            pgrep $bg_pid && pkill $bg_pid
+            # Note: this will be killed when container is stopped again so shouldnt be any problem in letting it be
+            # killing it too early causes it to not run properly so it cant install
         - sh <(curl -L https://nixos.org/nix/install) --no-daemon
         # - eval "$(curl https://get.x-cmd.com)"
         post:
