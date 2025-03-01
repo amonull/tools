@@ -1,7 +1,7 @@
 container:
     name: tools
     home: /home/.containers/tools
-    image: archLinux
+    image: archlinux
     createArgs:
     - --additional-packages "base-devel vim wlroot xsel"
     export:
