@@ -25,24 +25,10 @@ container:
             ln -s "$HOME/Documents/Programming/" "$__CONTAINER_HOME/Documents/Programming"
             ln -s "$HOME/.gitconfig" "$__CONTAINER_HOME/.gitconfig"
 
-            # jetbrains-toolbox fails to make its own desktop file so aided here
-            cat << EOF > $__CONTAINER_HOME/.local/share/applications/jetbrains-toolbox.desktop
-            [Desktop Entry]
-            Icon=/home/.containers/dev/.local/share/JetBrains/Toolbox/toolbox.svg
-            Exec=/home/.containers/dev/.local/share/JetBrains/Toolbox/bin/jetbrains-toolbox %u
-            Version=1.0
-            Type=Application
-            Categories=Development
-            Name=JetBrains Toolbox
-            StartupWMClass=jetbrains-toolbox
-            Terminal=false
-            MimeType=x-scheme-handler/jetbrains;
-            X-GNOME-Autostart-enabled=true
-            StartupNotify=false
-            X-GNOME-Autostart-Delay=10
-            X-MATE-Autostart-Delay=10
-            X-KDE-autostart-after=panel
-            EOF
+            # ensure distrobox conf is set correctly to launch gui apps correctly
+            if ! grep -q 'xhost +si:localuser:$USER >/dev/null' "$HOME/.distroboxrc"; then
+                echo 'xhost +si:localuser:$USER >/dev/null' >> "$HOME/.distroboxrc"
+            fi
 
             exit 0
         peri:
@@ -70,11 +56,9 @@ container:
             curl -L https://install.perlbrew.pl | bash
             echo "source ~/perl5/perlbrew/etc/bashrc" >> ~/.bashrc
         - |
-            # such a problematic app that cant fully start and write its own dekstop file at start so aided in that in pre
-            # uses js to load its version on its website as well so cant easily scrape it
             JETBRAINS_TOOLBOX_VERSION="2.5.4.38621"
             wget -q -O- https://download.jetbrains.com/toolbox/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}.tar.gz | tar -xz -C /tmp
-            /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox
+            /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox &
         - sh <(curl -L https://nixos.org/nix/install) --daemon
         # - eval "$(curl https://get.x-cmd.com)"
         post:
