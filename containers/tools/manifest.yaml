@@ -14,7 +14,6 @@ container:
     scripts:
         pre:
         - |
-            set -e
             __CONTAINER_NAME="$1"
             __CONTAINER_HOME="$2"
             # setup dirs
