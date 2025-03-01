@@ -3,7 +3,7 @@ container:
     home: /home/.containers/tools
     image: archLinux
     createArgs:
-    - --additional-packages "base-devel vim"
+    - --additional-packages "base-devel vim wlroot xsel"
     export:
     - ani-cli
     - mangal
