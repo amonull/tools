@@ -1,6 +1,13 @@
 container:
     name: dev
     home: /home/.containers/dev
+    image: ubunut:latest
+    createArgs:
+    - --additional-packages "fuse libfuse2 libxi6 libxrender1 libxtst6 mesa-utils libfontconfig libgtk-3-bin tar dbus-user-session socat bison binutils libnss3 libasound2-dev build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev llvm vim clang gcc gdb nasm docker systemd libpam-systemd pipewire-audio-client-libraries arduino"
+    - --init
+    - --unshare-groups
+    - --unshare-ipc
+    - --unshare-process
     export:
     - jetbrains-toolbox.desktop
     import:
@@ -68,7 +75,7 @@ container:
             JETBRAINS_TOOLBOX_VERSION="2.5.4.38621"
             wget -q -O- https://download.jetbrains.com/toolbox/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}.tar.gz | tar -xz -C /tmp
             /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox
-        - sh <(curl -L https://nixos.org/nix/install) --no-daemon
+        - sh <(curl -L https://nixos.org/nix/install) --daemon
         # - eval "$(curl https://get.x-cmd.com)"
         post:
         - |

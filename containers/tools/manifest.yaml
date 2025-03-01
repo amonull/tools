@@ -1,6 +1,9 @@
 container:
     name: tools
     home: /home/.containers/tools
+    image: archLinux
+    createArgs:
+    - --additional-packages "base-devel"
     export:
     - ani-cli
     - mangal
@@ -33,16 +36,3 @@ container:
         post:
         - printf "%s\\n" 1 | yay --noconfirm ani-cli
         - printf "%s\\n" 1 | yay --noconfirm mangal
-image:
-    Containerfile: |
-        FROM docker.io/library/archlinux:latest
-        LABEL name="tool-box" \
-            version="latest" \
-            usage="This image is meant to be used with a container manager like distrobox or toolbx" \
-            summary="Custom image load with all of my general tools"
-        COPY pkgs.txt /tmp/pkgs.txt
-        RUN pacman --noconfirm -Sy $(< /tmp/pkgs.txt)
-
-    files:
-    - pkgs.txt: |
-        base-devel
