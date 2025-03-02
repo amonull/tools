@@ -1,17 +1,15 @@
 container:
     name: dev
     home: /home/.containers/dev
-    image: docker.io/library/ubuntu:latest
     createArgs:
-    - --additional-packages "systemd libpam-systemd pipewire-audio-client-libraries"
-    # it breaks during pkg install without this separation
-    - --init-hooks 'sudo apt-get install -y fuse libfuse2 libxi6 libxrender1 libxtst6 mesa-utils libfontconfig libgtk-3-bin tar dbus-user-session socat bison binutils libnss3 libasound2-dev build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev llvm vim clang gcc gdb nasm docker.io arduino libwlroots-dev xsel'
+    - --additional-packages "fuse3 libfuse3-3 libfuse2 libsecret-1-0 libxi6 libxrender1 libxtst6 mesa-utils libfontconfig libgtk-3-bin tar dbus-user-session socat bison binutils libnss3 libasound2-dev build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev llvm vim clang gcc gdb nasm docker.io libwlroots-dev xsel"
     - --init
     - --unshare-groups
     - --unshare-ipc
     - --unshare-process
     export:
     - jetbrains-toolbox.desktop
+    - arduino.desktop
     import:
     - git
     scripts:
@@ -23,6 +21,7 @@ container:
             [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
             mkdir -p "$__CONTAINER_HOME/Documents"
             mkdir -p "$__CONTAINER_HOME/.local/share/applications"
+            mkdir -p "$__CONTAINER_HOME/.local/bin"
             # link dirs
             ln -s "$HOME/Documents/Programming/" "$__CONTAINER_HOME/Documents/Programming"
             ln -s "$HOME/.gitconfig" "$__CONTAINER_HOME/.gitconfig"
@@ -58,10 +57,30 @@ container:
             curl -L https://install.perlbrew.pl | bash
             echo "source ~/perl5/perlbrew/etc/bashrc" >> ~/.bashrc
         - |
+            arduinoIdeVersion="$(curl -s "https://github.com/arduino/arduino-ide/tags" | grep "Link--primary Link" | awk -F '</a>' '{print $1}' | awk -F '>' '{print $NF}' | tr -d 'v' | head -n 1)"
+            wget -O "$HOME/.local/bin/arduino-ide" "https://github.com/arduino/arduino-ide/releases/download/${arduinoIdeVersion}/arduino-ide_${arduinoIdeVersion}_Linux_64bit.AppImage"
+            chmod +x "$HOME/.local/bin/arduino-ide"
+
+            # desktop file not provided have to write my own one in
+            cat << EOF > "$HOME/.local/share/applications/arduino.desktop"
+            [Desktop Entry]
+            Name=Arduino IDE
+            Comment=Open-source electronics prototyping platform
+            GenericName=Arduino IDE 2.x
+            Exec=/home/.containers/dev/.local/bin/arduino-ide %f
+            Icon=arduino
+            Type=Application
+            Terminal=false
+            Categories=Development;Engineering;Electronics;IDE;
+            MimeType=text/x-arduino
+            Keywords=embedded electronics;electronics;avr;microcontroller;
+            StartupWMClass=processing-app-Base
+            EOF
+        - |
             JETBRAINS_TOOLBOX_VERSION="2.5.4.38621"
             wget -q -O- https://download.jetbrains.com/toolbox/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}.tar.gz | tar -xz -C /tmp
             /tmp/jetbrains-toolbox-${JETBRAINS_TOOLBOX_VERSION}/jetbrains-toolbox &
-        - sh <(curl -L https://nixos.org/nix/install) --daemon
+        - sh <(curl -L https://nixos.org/nix/install) --daemon --yes
         # - eval "$(curl https://get.x-cmd.com)"
         post:
         - |
@@ -90,6 +109,23 @@ container:
             sdk install gradle
             printf "%s\\n" yes | luaver install $LUA_VER
             perlbrew install --notest stable
+        - sudo usermod -a -G dialout $USER
     autostart:
         login: true
         afterBuild: true
+# create container with init packages preloaded
+image:
+    Containerfile: |
+        FROM docker.io/library/ubuntu:latest
+        LABEL name="dev-box" \
+            version="latest" \
+            usage="This image is meant to be used with a container manager like distrobox or toolbx" \
+            summary="Custom image load with all of my dev tools"
+        COPY pkgs.txt /tmp/pkgs.txt
+        RUN apt-get update && DEBIAN_FRONTEND=noninteractive apt-get -y install $(cat /tmp/pkgs.txt | xargs)
+
+    files:
+    - pkgs.txt: |
+        systemd
+        libpam-systemd
+        pipewire-audio-client-libraries
