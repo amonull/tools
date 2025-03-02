@@ -3,7 +3,8 @@ container:
     home: /home/.containers/tools
     image: archlinux
     createArgs:
-    - --additional-packages "base-devel vim wlroot xsel"
+    # TODO: find a way to santize those "
+    - --additional-packages "base-devel vim wlroots xsel"
     export:
     - ani-cli
     - mangal
@@ -35,3 +36,6 @@ container:
         post:
         - printf "%s\\n" 1 | yay --noconfirm ani-cli
         - printf "%s\\n" 1 | yay --noconfirm mangal
+    autostart:
+      login: true
+      afterBuild: true

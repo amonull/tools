@@ -88,3 +88,6 @@ container:
             sdk install gradle
             printf "%s\\n" yes | luaver install $LUA_VER
             perlbrew install --notest stable
+    autostart:
+        login: true
+        afterBuild: true
