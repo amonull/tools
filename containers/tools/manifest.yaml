@@ -3,7 +3,6 @@ container:
     home: /home/.containers/tools
     image: archlinux
     createArgs:
-    # TODO: find a way to santize those "
     - --additional-packages "base-devel vim wlroots xsel"
     export:
     - ani-cli
@@ -21,9 +20,12 @@ container:
             [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
 
             mkdir -p $HOME/.local/state/ani-cli/
+            mkdir -p $HOME/.config/mangal
             mkdir -p $__CONTAINER_HOME/.local/state/ani-cli
+            mkdir -p $__CONTAINER_HOME/.config/mangal
             touch $HOME/.local/state/ani-cli/ani-hsts
             ln -s $HOME/.local/state/ani-cli/ani-hsts $__CONTAINER_HOME/.local/state/ani-cli/
+            ln -s $HOME/.config/mangal $__CONTAINER_HOME/.config/mangal
 
             exit 0
         peri:
