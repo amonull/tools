@@ -1,5 +1,6 @@
 # Dev
 This is a personal container that i use for development, it is meant to be used along side a container manager like distrobox or toolbx.
+I try to to avoid placing ides and text editors into this container and instead install them through flatpaks and attach this container onto them if an ide doesnt support it then i install it on here. On the flatpaks the env var $HOME gets changed to a different place compared to both my host and this container to avoid having them too integrated with each other.
 
 ## Image
 Ubuntu:latest -> docker.io/library/ubuntu:latest
@@ -13,7 +14,6 @@ Ubuntu:latest -> docker.io/library/ubuntu:latest
 - gcc
 - gdb
 - nasm
-- yq
 
 ### dependecy
 Below are packages installed as dependecies of [third-party packages or their installers](#Third-part/web installers)
