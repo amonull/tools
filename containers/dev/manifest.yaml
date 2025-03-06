@@ -2,14 +2,12 @@ container:
     name: dev
     home: /home/.containers/dev
     createArgs:
-    - --additional-packages "fuse3 libfuse3-3 libfuse2 libsecret-1-0 libxi6 libxrender1 libxtst6 mesa-utils libfontconfig libgtk-3-bin tar dbus-user-session socat bison binutils libnss3 libasound2-dev build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev llvm vim clang gcc gdb nasm docker.io libwlroots-dev xsel"
+    - --additional-packages "fuse3 libfuse3-3 libfuse2 fuse-overlayfs libsecret-1-0 libxi6 libxrender1 libxtst6 mesa-utils libfontconfig libgtk-3-bin tar dbus-user-session socat bison binutils libnss3 libasound2-dev build-essential curl libffi-dev libffi8 libgmp-dev libgmp10 libncurses-dev pkg-config libssl-dev zlib1g-dev libbz2-dev libreadline-dev libsqlite3-dev libncursesw5-dev xz-utils tk-dev libxml2-dev libxmlsec1-dev liblzma-dev llvm vim clang gcc gdb nasm libwlroots-dev xsel"
     - --init
     - --unshare-groups
     - --unshare-ipc
     - --unshare-process
-    export:
-    - jetbrains-toolbox.desktop
-    - arduino.desktop
+    - --unshare-netns
     import:
     - git
     scripts:
@@ -86,6 +84,7 @@ container:
             printf "%s\\n" yes | luaver install $LUA_VER
             perlbrew install --notest stable
         - sudo usermod -a -G dialout $USER
+        - echo '[ -f "$HOME/.aliasrc" ] && . "$HOME/.aliasrc"' >> "$HOME/.bashrc"
     autostart:
         login: true
         afterBuild: true

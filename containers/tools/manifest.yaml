@@ -38,6 +38,7 @@ container:
         post:
         - printf "%s\\n" 1 | yay --noconfirm ani-cli
         - printf "%s\\n" 1 | yay --noconfirm mangal
+        - echo '[ -f "$HOME/.aliasrc" ] && . "$HOME/.aliasrc"' >> "$HOME/.bashrc"
     autostart:
       login: true
       afterBuild: true
