@@ -1,0 +1,102 @@
+#!/bin/bash
+
+if [ "$(id -u)" -ne 0 ]; then
+        echo 'This script must be run by root' >&2
+        exit 1
+fi
+
+# check if partition is set
+if [ -z "${PARTITION}" ]; then
+        echo "PARTITION env var must be set before starting the script"
+        echo "PARTITION env var is what partition on is currently encrypted i.e. /dev/sda1"
+        exit 1
+fi
+
+# check if keyfile is set
+if [ -z "${KEYFILE}" ]; then
+        echo "KEYFILE env var must be set before starting the script"
+        echo "KEYFILE env var is the path to keyfile to use for decrypting $PARTITION"
+        exit 1
+fi
+
+# check if destination dir is set
+if [ -z "${DSTDIR}" ]; then
+        echo "DSTDIR env var must be set before starting the script"
+        echo "DSTDIR env var is the path of where the decrypted device should be mounted onto i.e. /mnt/Shared_Volume"
+fi
+
+# setup decrypt opts
+if [ -z "${DECRYPT_OPTS_OVERRIDE}" ]; then
+        DCRYPT_OPTS="tcrypt-veracrypt,tcrypt-keyfile=$KEYFILE"
+
+        if [ -n "$DECRYPT_OPTS_APPEND" ]; then
+                echo "Appending to default encryption options"
+                DCRYPT_OPTS="${DCRYPT_OPTS},${DECRYPT_OPTS_APPEND}"
+        fi
+else
+        echo "Overriding default decryption options"
+        DCRYPT_OPTS="$DECRYPT_OPTS_OVERRIDE"
+fi
+
+# setup up mount opts
+if [ -z "${MOUNT_OPTS_OVERRIDE}" ]; then
+        MNT_OPTS="defaults,noatime,utf8,dmask=002,fmask=111,uid=1000,gid=1000"
+
+        if [ -n "$MOUNT_OPTS_APPEND" ]; then
+                echo "Appending to default mounting options"
+                MNT_OPTS="${MNT_OPTS},${MOUNT_OPTS_APPEND}"
+        fi
+else
+        echo "Overriding default mounting options"
+        MNT_OPTS="$MOUNT_OPTS_OVERRIDE"
+fi
+
+# setup fs
+if [ -z "${MNT_FS_OVERRIDE}" ]; then
+        MNT_FS="ntfs"
+else
+        MNT_FS="$MNT_FS_OVERRIDE"
+fi
+
+# set up fs dmp
+if [ -z "${MNT_DMP_OVERRIDE}" ]; then
+        MNT_DMP="0"
+else
+        MNT_DMP="$MNT_DMP_OVERRIDE"
+fi
+
+# setup fsck
+if [ -z "${MNT_FSCK_OVERRIDE}" ]; then
+        MNT_FSCK="2"
+else
+        MNT_FSCK="$MNT_FSCK_OVERRIDE"
+fi
+
+# check if should use password
+if [ -z "${DECRYPT_PASSWD}" ]; then
+        DCRYPT_PASSWD="/dev/null"
+else
+        DCRYPT_PASSWD="$DECRYPT_PASSWD"
+fi
+
+# back up dirs
+cp /etc/fstab /etc/fstab.bak
+cp /etc/crypttab /etc/crypttab.bak
+
+# create DSTDIR if it doesnt exists
+if [ ! -d "${DSTDIR}" ]; then
+        mkdir -p "$DSTDIR"
+fi
+
+# get part uuid for crypttab
+PARTITION_PARTUUID="$(blkid -s PARTUUID "$PARTITION" | awk -F '=' '{print $2}' | tr -d '"')"
+
+# generate random unique name from destination dirs basename
+VOLNAME="$(basename "$DSTDIR")-decrypted"
+
+# write crypttab data
+echo "$VOLNAME PARTUUID=$PARTITION_PARTUUID $DCRYPT_PASSWD $DCRYPT_OPTS" | tee -a /etc/crypttab
+
+# write fstab data
+echo "/dev/mapper/$VOLNAME $DSTDIR $MNT_FS $MNT_OPTS $MNT_DMP $MNT_FSCK" | tee -a /etc/fstab
+
