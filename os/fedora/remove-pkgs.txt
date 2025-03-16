@@ -1,0 +1,16 @@
+# use dnf autoremove
+libreoffice-data
+@libreoffice
+kpatience
+kmahjongg
+kmines
+dragonplayer
+akregator
+elisa
+firefox
+gwenview
+kolourpaint
+kwrite
+neochat
+okular
+skanpage

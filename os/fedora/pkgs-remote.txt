@@ -1,0 +1,3 @@
+# src - pkg
+https://www.jetbrains.com/toolbox-app/ - toolbox
+https://www.nerdfonts.com/ - nerdfonts

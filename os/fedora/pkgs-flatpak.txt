@@ -1,0 +1,24 @@
+akregator
+elisa
+firefox
+librewolf
+gwenview
+kolourpaint
+kwrite
+neochat
+okular
+skanpage
+arduino ide V2
+blanket
+keepassxc
+mpv
+obsidian
+sasm
+texstudio
+thonny
+torbrowser
+vscode
+dev toolbox
+blanket
+sasm
+texstudio
