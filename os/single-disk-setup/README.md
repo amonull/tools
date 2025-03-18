@@ -34,3 +34,9 @@ unset PARTITION
 unset KEYFILE
 unset DSTDIR
 ```
+
+## windows/setup-partitions.ps1
+This [script](./windows/setup-partitions.ps1) takes the C: drive and resizes it to have 128gb it then takes that leftover space of n bytes and formats n - 128gb of it the formatted space is in NTFS and bitlocker is turned off
+
+### Running
+Start and admin powershell terminal instance and set execute policy using this [guide](../../windows/setup-execution-policy.md) after that run this script with `./setup-partitions.ps1` assuming the script is on CWD.
