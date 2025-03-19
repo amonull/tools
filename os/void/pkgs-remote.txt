@@ -1,0 +1,14 @@
+BPM-Templates_v0.0.2_1
+ani-cli_v4.9_1
+ani-skip_v1.0_1
+bpm_v1.1.3_1
+gtt_v10_1
+librewolf_v136.0.2-1_1
+mangal-bin_v4.0.6_1
+pdf-wc_v1.0_1
+frogmouth
+pudb
+mullvad-vpn-2024.6
+pokemon-colorscript
+ghcup
+vscode
