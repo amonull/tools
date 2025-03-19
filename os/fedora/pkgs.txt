@@ -2,7 +2,6 @@
 ntfs-3g
 ntfsprogs
 distrobox
-starship
 fd
 ripgrep
 exa
