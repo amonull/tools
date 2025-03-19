@@ -1,0 +1,6 @@
+xbps-alternatives -g java -s openjdk<version>
+
+-g -> group to change
+-s -> what to set that group to
+
+-l -> can list all avaliable items for -s or all groups and all -s for groups

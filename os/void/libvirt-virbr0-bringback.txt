@@ -1,0 +1,1 @@
+symlink /etc/libvirt/qemu/networks/default.xml to /etc/libvirt/qemu/networks/autostart/default.xml

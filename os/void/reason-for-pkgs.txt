@@ -1,0 +1,27 @@
+elogind - required to make so many things work
+socklog - required to have logs working on runit
+
+rustup - required to set up rust and cargo
+ghcup - downloaded externally makes ghc and stack work as intended and takes care of its versions
+
+playerctl - required to make music pause and next buttons work
+mpv-mpris - required to make playerctl work on mpv
+
+lm-sensors - required to get cpu temps for polybar
+inetutils - required to make network work
+sof firmware - required to make sound card work
+
+dragon - required to allow ranger have drag and drop capabilities
+ctags - nvim plugin tag bar
+openssl-devel - needed to build cargo-update (and some libs like libnotify)
+void-repo-nonfree/void-repo-multilib - required for steam and most games
+
+virtiofsd - allows fs passthrough with wm host to guest
+
+gdu - required by AstroVim
+lazygit - required by AstroVim
+bottom - required by AstroVim
+
+steam extra deps:
+needed repos -> void-repo-nonfree void-repo-multilib
+libgcc-32bit libstdc++-32bit libdrm-32bit libglvnd-32bit mesa-dri-32bit
