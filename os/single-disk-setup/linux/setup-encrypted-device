@@ -92,7 +92,7 @@ fi
 PARTITION_PARTUUID="$(blkid -s PARTUUID "$PARTITION" | awk -F '=' '{print $2}' | tr -d '"')"
 
 # generate random unique name from destination dirs basename
-VOLNAME="$(basename "$DSTDIR")-decrypted"
+VOLNAME="decrypted-$PARTITION_PARTUUID"
 
 # write crypttab data
 echo "$VOLNAME PARTUUID=$PARTITION_PARTUUID $DCRYPT_PASSWD $DCRYPT_OPTS" | tee -a /etc/crypttab
