@@ -1,6 +1,3 @@
-# Sets up partitions for my usage on a single disk multi-boot system. By default C drive will be partitioned into 3 separate partitions
-# With windows and linux getting 128GB allocated each and the rest going to a shared NTFS partition
-
 [CmdletBinding()]
 param (
     [Parameter(Mandatory=$False, HelpMessage="What drive to resize (will resize it 3 times one for a windows partition annother for linux and last one for shared) (Default: C)")]
