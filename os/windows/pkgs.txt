@@ -1,0 +1,13 @@
+# Pkg - Remote
+FW13 amd 7040 drivers - https://knowledgebase.frame.work/en_us/framework-laptop-13-bios-and-driver-releases-amd-ryzen-7040-series-r1rXGVL16
+ Logitech G HUB - https://www.logitechg.com/en-us/innovation/g-hub.html
+firefox - https://www.mozilla.org/en-US/firefox/new/
+veracrypt - https://www.veracrypt.fr/en/Downloads.html
+epic games launcher - https://store.epicgames.com/en-US/download
+hoyoplay - https://hoyoplay.hoyoverse.com/
+riot games launcher - https://www.leagueoflegends.com/en-us/
+battle.net launcher - https://download.battle.net/en-us/desktop
+gog galaxy - https://www.gog.com/galaxy
+steam - https://store.steampowered.com/
+ubisoft connect - https://www.ubisoft.com/en-us/ubisoft-connect
+MSVC Redistributables - https://learn.microsoft.com/en-us/cpp/windows/latest-supported-vc-redist?view=msvc-170 -> https://aka.ms/vs/17/release/vc_redist.x64.exe
