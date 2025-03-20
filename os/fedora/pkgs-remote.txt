@@ -1,3 +1,4 @@
 # src - pkg
 https://www.jetbrains.com/toolbox-app/ - toolbox
 https://www.nerdfonts.com/ - nerdfonts
+https://mullvad.net/en/download/vpn/linux - mullvad vpn
