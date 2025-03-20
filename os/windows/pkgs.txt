@@ -1,6 +1,6 @@
 # Pkg - Remote
 FW13 amd 7040 drivers - https://knowledgebase.frame.work/en_us/framework-laptop-13-bios-and-driver-releases-amd-ryzen-7040-series-r1rXGVL16
- Logitech G HUB - https://www.logitechg.com/en-us/innovation/g-hub.html
+Logitech G HUB - https://www.logitechg.com/en-us/innovation/g-hub.html
 firefox - https://www.mozilla.org/en-US/firefox/new/
 veracrypt - https://www.veracrypt.fr/en/Downloads.html
 epic games launcher - https://store.epicgames.com/en-US/download
