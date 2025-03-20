@@ -19,6 +19,3 @@ thonny
 torbrowser
 vscode
 dev toolbox
-blanket
-sasm
-texstudio
