@@ -1,6 +1,4 @@
-# install with dnf install --with-optional
-ntfs-3g
-ntfsprogs
+vim-enhanced
 distrobox
 fd
 ripgrep
