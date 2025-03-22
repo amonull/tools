@@ -40,7 +40,7 @@ fi
 
 # setup up mount opts
 if [ -z "${MOUNT_OPTS_OVERRIDE}" ]; then
-        MNT_OPTS="defaults,noatime,utf8,dmask=027,fmask=137,uid=1000,gid=1000"
+        MNT_OPTS="defaults,noatime,hide_dot_files,dmask=027,fmask=137,uid=1000,gid=1000"
 
         if [ -n "$MOUNT_OPTS_APPEND" ]; then
                 echo "Appending to default mounting options"
@@ -53,7 +53,7 @@ fi
 
 # setup fs
 if [ -z "${MNT_FS_OVERRIDE}" ]; then
-        MNT_FS="ntfs"
+        MNT_FS="ntfs3"
 else
         MNT_FS="$MNT_FS_OVERRIDE"
 fi
