@@ -20,12 +20,12 @@ container:
             [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
 
             mkdir -p $HOME/.local/state/ani-cli/
-            mkdir -p $HOME/.config/mangal
+            mkdir -p $HOME/.config/
             mkdir -p $__CONTAINER_HOME/.local/state/ani-cli
             mkdir -p $__CONTAINER_HOME/.config/mangal
             touch $HOME/.local/state/ani-cli/ani-hsts
             ln -s $HOME/.local/state/ani-cli/ani-hsts $__CONTAINER_HOME/.local/state/ani-cli/
-            ln -s $HOME/.config/mangal $__CONTAINER_HOME/.config/mangal
+            ln -s $HOME/.config/mangal $__CONTAINER_HOME/.config/
 
             exit 0
         peri:
