@@ -11,3 +11,5 @@ flatseal
 vorta
 git-all
 @virtualization
+cascadia-code-nf-fonts
+cascadia-mono-nf-fonts
