@@ -67,7 +67,7 @@ fi
 
 # setup fsck
 if [ -z "${MNT_FSCK_OVERRIDE}" ]; then
-        MNT_FSCK="2"
+        MNT_FSCK="0"
 else
         MNT_FSCK="$MNT_FSCK_OVERRIDE"
 fi
