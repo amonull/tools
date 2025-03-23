@@ -19,12 +19,11 @@ container:
             # setup dirs
             [ -d "$__CONTAINER_HOME" ] || mkdir -p "$__CONTAINER_HOME"
 
-            mkdir -p $HOME/.local/state/ani-cli/
-            mkdir -p $HOME/.config/
-            mkdir -p $__CONTAINER_HOME/.local/state/ani-cli
-            mkdir -p $__CONTAINER_HOME/.config/mangal
-            touch $HOME/.local/state/ani-cli/ani-hsts
-            ln -s $HOME/.local/state/ani-cli/ani-hsts $__CONTAINER_HOME/.local/state/ani-cli/
+            [ -d $HOME/.local/state/ani-cli/ ] || mkdir -p $HOME/.local/state/ani-cli
+            [ -d $HOME/.config/mangal ] || mkdir -p $HOME/.config/mangal
+            mkdir -p $__CONTAINER_HOME/.local/state/
+            mkdir -p $__CONTAINER_HOME/.config/
+            ln -s $HOME/.local/state/ani-cli $__CONTAINER_HOME/.local/state/
             ln -s $HOME/.config/mangal $__CONTAINER_HOME/.config/
 
             exit 0
