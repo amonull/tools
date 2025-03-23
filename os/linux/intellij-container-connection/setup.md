@@ -1,2 +1,0 @@
-# Intellij
-Following the same steps from [vscode setup](../vscode-container-connection/setup.md) worked for now if it stops working ill either update this or put intellij apps directly onto the container
