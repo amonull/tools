@@ -1,0 +1,46 @@
+alias e="$EDITOR"
+alias v="vim"
+
+alias nv='nvim'
+alias yt='ytmdl --skip-meta'
+alias a='ani-cli'
+
+alias date="date '+%d/%m/%Y %I:%M:%S'"
+alias rdate="/bin/date"
+
+alias poweroff='loginctl poweroff'
+alias reboot='loginctl reboot'
+
+alias qfind='fd -ui'
+alias grep='rg -i'
+
+alias rclear='/bin/clear'
+alias rclaer='/bin/clear' # sick of mispelling this shit
+alias rcls='/bin/clear'
+alias clear='clear -x'
+alias claer='clear -x'
+alias cls='clear -x'
+
+alias rls='/bin/ls'
+alias rcat='/bin/cat'
+alias bat='bat -P'
+
+alias rrm='/usr/bin/rm -Iv --preserve-root'
+alias rm='trash-put -v'
+alias trash-empty='trash-empty -v'
+
+alias mv='mv -iv'
+alias ln='ln -v'
+alias cp='cp -iv'
+
+alias df='df -h'
+alias du-list-dir='du --si -d 1'
+
+alias less='less -X'
+
+alias chmod-exe='chmod 744' # sets premissions to user=all group=read everyone_else=NONE
+alias chmod-default='chmod 644' # sets permissions to user=w+r group=r everyone_else=r
+
+alias i='ip -c -br a'
+
+alias test-network='ping -c 5 gnu.org'

@@ -1,0 +1,30 @@
+# [ XBPS ]
+alias download='sudo xbps-install -S'
+alias redownload='sudo xbps-install -f'
+alias update='sudo xbps-install -Su && success_notify "Update Complete" "Update Completed Successfully" || fail_notify "Update Failed" "Failed To Update"'
+alias update-xlocate='xlocate -S'
+alias remove='sudo xbps-remove'
+alias purge='sudo xbps-remove -R'
+alias remove-orphans='sudo xbps-remove -oO'
+alias search='xbps-query -Rs'
+alias search-xbps-files='xlocate'
+alias list-installed='xbps-query -m'
+alias list-updates='xbps-install -Mun | cut -f1 -d   && printf "\n" && bpm -c' # the \n just doenst seem to work in echo or out but echo "" creates new line anyways
+alias show-deps='xbps-query -x'
+alias show-deps-reverse='xbps-query -X'
+alias hold-pkg='sudo xbps-pkgdb -m hold'
+alias unhold-pkg='sudo xbps-pkgdb -m unhold'
+alias list-hold-pkgs='xbps-query -H'
+alias update-xbps='sudo xbps-install -Su xbps && success_notify "Update Complete" "Update Completed Successfully" || fail_notify "Update Failed" "Failed To Update"'
+# alias list-installed-all-date='xbps-query -p install-date -s  | sort -k2 | awk \'BEGIN { FS = ":" } ; { print $1 }\' '
+alias list-installed-with-all-date='xbps-query -p install-date -s  | sort -k2'
+alias list-installed-date='~/.config/bash_extras/scripts/list-manually-installed-pkgs-by-date.sh'
+alias save-installed='list-installed > /home/amon/.00-installed_pkgs.txt'
+alias save-installed-thirdparty='list-third-party > /home/amon/.00-installed_thirdparty.txt'
+alias save-pkgs='save-installed; save-installed-thirdparty'
+alias show-pkg='xbps-query -S'
+
+# [ Void Src ]
+alias update-src='cd $XBPS_SRC_ROOT && git pull && cd $HOME && success_notify "Update Complete" "Update Completed Successfully" || fail_notify "Update Failed" "Failed To Update"'
+alias download-src='cd $XBPS_SRC_ROOT && xi'
+

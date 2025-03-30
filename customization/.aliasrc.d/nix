@@ -1,0 +1,7 @@
+alias list-nix='nix-env --query --installed && nix-env -p /nix/var/nix/profiles/default --query --installed'
+alias download-nix='nix-env -iA'
+alias remove-nix='nix-env --uninstall'
+alias search-nix='nix-env -qaP'
+alias update-nix='nix-channel --update && sudo nix-channel --update && nix-env -u && sudo nix-env -u'
+alias list-updates-nix='nix-channel --update && sudo nix-channel --update && nix-env --dry-run -u && nix-env -p /nix/var/nix/profiles/default --dry-run -u'
+

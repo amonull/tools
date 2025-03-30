@@ -1,0 +1,7 @@
+#!/bin/bash
+alias rebash='source ~/.bashrc'
+alias ls='exa -l --git --group-directories-first --icons --no-time'
+alias la='exa -al --git --group-directories-first --icons --no-time'
+alias lt='exa -l --git --group-directories-first --icons'
+alias lta='exa -al --git --group-directories-first --icons'
+alias cat='bat -P -p'

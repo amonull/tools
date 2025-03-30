@@ -1,0 +1,3 @@
+alias backlight-2='sudo brightnessctl --device="tpacpi::kbd_backlight" set 2'
+alias backlight-1='sudo brightnessctl --device="tpacpi::kbd_backlight" set 1'
+alias backlight-0='sudo brightnessctl --device="tpacpi::kbd_backlight" set 0'

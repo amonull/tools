@@ -1,0 +1,9 @@
+#!/bin/bash
+
+success_notify() {
+	notify-send "$1" "$2" -u low -t 3000
+}
+
+fail_notify() {
+	notify-send "$1" "$2" -u critical -t 10000
+}

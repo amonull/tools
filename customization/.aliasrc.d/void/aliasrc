@@ -1,0 +1,7 @@
+# alias void-docs='ls /usr/share/doc/void/' # with void-docs-browse void-docs becomes a command being able to search for anything in that dir in any format (html/man/md/pdf)
+
+# WM
+# alias set-wallpaper='feh --bg-scale'
+# alias set-lock='~/.config/bash_extras/scripts/lock.sh'
+#alias restart-polybar='pkill -USR1 polybar' # no ipc bars
+alias restart-polybar='polybar-msg cmd restart' # with ipc bars

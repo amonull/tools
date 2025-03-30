@@ -1,0 +1,2 @@
+alias restart-network='sudo sv restart NetworkManager'
+alias list-runit='sudo vsv'

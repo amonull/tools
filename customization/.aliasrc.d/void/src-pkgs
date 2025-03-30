@@ -1,0 +1,6 @@
+alias bpm='bpm -V'
+alias update-pipx='pipx upgrade-all --include-injected'
+alias update-bpm='bpm -u'
+alias list-third-party='bpm -l; pipx list | grep " - " | tr -d "-" | tr -d " "; list-nix; echo "my own battery sript"; echo "pokemon-colorscript gitlab"; echo "ghcup"; echo "vscode"'
+alias update-vscode='$HOME/.config/bash_extras/scripts/dirty-install-ms-vscode.sh'
+alias list-vscode='$HOME/.config/bash_extras/scripts/dirty-update-check-ms-vscode.sh'

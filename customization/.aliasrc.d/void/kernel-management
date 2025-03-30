@@ -1,0 +1,2 @@
+alias remove-kernel='sudo vkpurge rm all' # removes old kernel versions
+alias list-kernel='vkpurge list'

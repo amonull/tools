@@ -1,0 +1,4 @@
+alias iphone-re-pair='idevicepair pair'
+alias iphone-mount='ifuse ~/iphone-fs'
+alias iphone-unmount='fusermount -u ~/iphone-fs'
+
