@@ -19,3 +19,4 @@ thonny
 torbrowser
 vscode
 dev toolbox
+org.freedesktop.Sdk.Extension.texlive
