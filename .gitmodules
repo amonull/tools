@@ -1,3 +1,6 @@
 [submodule "containers/manifest-builder"]
 	path = containers/manifest-builder
 	url = https://github.com/amonull/container-manifest.git
+[submodule "customization/.config"]
+	path = customization/.config
+	url = https://github.com/amonull/config
