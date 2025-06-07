@@ -1,0 +1,130 @@
+#! /bin/sh
+
+# [ WM Core ]
+pgrep -x sxhkd >/dev/null || sxhkd &
+"$HOME/.config/polybar/launch.sh" &
+
+/usr/libexec/polkit-gnome-authentication-agent-1 & # providede with polkit-gnome
+# lxpolkit & # provieded with lxsession
+
+dunst & # notifications
+
+udiskie -s -n & # disk auto mount
+
+nm-applet & # NetworkManager applet
+qlipper &   # clipboard manager applet
+
+# "$HOME/.fehbg" & # normal wallpaper (using feh)
+nitrogen --restore & # normal wallpaper (using nitrogen)
+# pgrep -x livebg.sh >/dev/null || "$HOME/.config/bash_extras/scripts/live-wallpaper/livebg.sh" "$HOME/Pictures/wallpaper/live/lightling.mp4" & # live wallpaper script
+# xsetroot -solid <color> # solid color background
+
+battery-notify &
+
+if [ -f "$XDG_CONFIG_HOME/picom/picom-bspwm.conf" ]; then
+	pgrep -x picom >/dev/null || picom --config "$XDG_CONFIG_HOME/picom/picom-bspwm.conf" &
+else
+	pgrep -x picom >/dev/null || picom &
+fi
+
+# [ screensaver ] #
+# turn off screensaver
+xset s off &
+xset -dpms &
+
+# turn on xsecurelock screensaver (works when lid gets closed)
+# xset s 300 5 & # adds timer to dim screen
+pgrep -x xss-lock >/dev/null || xss-lock -n /usr/libexec/xsecurelock/dimmer -l -- xsecurelock &
+
+# [ CONKY ] #
+# conky -c ~/.config/conky/left.conf
+# conky -c ~/.config/conky/right.conf
+
+###########
+
+# [ monitor tiles ]
+if xrandr --query | grep -wq " eDP1 connected"; then
+	bspc monitor eDP1 -d I II III IV V VI # up to 6
+else
+	bspc monitor -d I II III IV V VI # up to 6 (safety fallback)
+fi
+# setup for second monitor
+if xrandr --query | grep -wq "HDMI1 connected"; then
+	bspc monitor HDMI1 -d VI VII VIII IX X # up to 10
+fi
+# IMPORTANT both HDMI1 and eDP1 share desktop 6 (mirroring)
+
+# [ bspc settings ]
+bspc config border_width 2
+bspc config window_gap 12
+bspc config split_ratio 0.52
+bspc config borderless_monocle false
+bspc config gapless_monocle false
+bspc config ignore_ewmh_focus true # doesn't follow focus requests from apps
+
+# bspc config top_padding           35  # normal top bar
+# bspc config top_padding           50  # large top bar
+bspc config top_padding 10     # no top bar
+bspc config bottom_padding -10 # bottom bar
+
+# [ mouse keybinds ]
+bspc config pointer_modifier mod4 # uses windows key
+bspc config pointer_action1 resize_corner
+bspc config pointer_action2 resize_side
+bspc config pointer_action3 move
+
+# [ window rules ]
+bspc rule -a KeePassXC:*:"Passwords.kdbx [Locked] - KeePassXC" desktop=^1
+bspc rule -a processing-app-Base desktop=^1 # arduino
+bspc rule -a steamwebhelper desktop=^1
+
+bspc rule -a LibreWolf desktop=^2
+bspc rule -a Firefox desktop=^2 # normal firefox name
+bspc rule -a firefox desktop=^2 # tor browser name
+
+bspc rule -a "Code" desktop=^3 						# vscode (with ms)
+bspc rule -a "Code - OSS" desktop=^3      # vscode (no ms)
+bspc rule -a jetbrains-idea-ce desktop=^3 # intellij jetbrains
+bspc rule -a Thonny desktop=^3            # thonny ide
+bspc rule -a obsidian desktop=^3
+bspc rule -a TeXstudio desktop=^3
+bspc rule -a Thunderbird desktop=^3 # Mail client
+
+bspc rule -a Virt-manager desktop=^6 # virtual machine manager
+
+bspc rule -a Blanket desktop=^5
+
+# [ WM Colors ]
+# gruvbox
+# bspc config focused_border_color '#5C4C28' # dark
+# bspc config focused_border_color '#F0C674' # bright
+# bspc config focused_border_color '#dcde3f' # cyber-yellow
+# dracula
+# bspc config focused_border_color '#4E00EB' # dark
+# bspc config focused_border_color '#00F8FF' # light
+# green
+# bspc config focused_border_color '#05FF00' # green-green
+# bspc config focused_border_color '#8c9440' # vomit green
+bspc config focused_border_color '#00ffc8' # cyberpunk green
+# bspc config focused_border_color '#2c4733' # forest green
+# devilman
+# bspc config focused_border_color '#590000' # dark
+# bspc config focused_border_color '#BE0000' # bright
+# bspc config focused_border_color '#531b17' #darkish
+# pink-red
+# bspc config focused_border_color '#ff0046'
+# bspc config focused_border_color '#ff0091'
+# rainy
+# bspc config focused_border_color '#708491'
+# manga
+# bspc config focused_border_color '#80807e'
+
+# unfocused border colors
+# bspc config normal_border_color '#ff0046'
+
+# [ Start Up Applications ]
+bspc rule -a Alacritty desktop=^1 -o && alacritty &
+# sleep 0.5 # if not here sometimes alacritty -e musikcube exec first
+# pgrep -x musikcube > /dev/null || bspc rule -a Alacritty desktop=^5 -o && alacritty -e musikcube &
+
+pgrep -x mullvad-gui >/dev/null || bspc rule -a "Mullvad VPN" desktop=^4 state=pseudo_tiled -o && mullvad-vpn & # auto-start for some reason does not work

@@ -1,0 +1,221 @@
+#
+# wm independent hotkeys
+#
+
+# terminal emulator
+ctrl + alt + t
+	alacritty
+super + Return
+  alacritty
+
+# program launcher
+super + r
+	rofi -show drun \
+    -matching fuzzy \
+    -theme $HOME/.config/rofi/scripts/launchers/type-6/style-7.rasi
+
+# emoji selector
+super + alt + e
+	rofi -show emoji
+
+# calculator
+super + alt + c
+	rofi -show calc -no-show-match -no-sort
+
+# rofi file browser
+super + alt + f
+	alacritty --title ranger -e ranger
+
+# Translator
+super + alt + t
+  alacritty --title gtt -e gtt
+
+# Dictionary
+super + alt + d
+  alacritty --title Dictionary --hold -e "$HOME/Documents/programming/python/tmp-dict-script/main.py"
+
+# Music
+super + alt + m
+  alacritty --title musikcube -e musikcube
+
+# screenshot
+Print
+	flameshot screen -c
+ctrl + Print
+	flameshot gui
+alt + Print
+	flameshot gui # when python OCR script is done it will call that script
+
+# lockscreen
+super + l
+    env XSECURELOCK_SHOW_DATETIME=1 xsecurelock
+	# $HOME/.config/bash_extras/scripts/lock.sh
+
+# make sxhkd reload its configuration files:
+super + Escape
+	pkill -USR1 -x sxhkd
+
+# pulse audio volume control
+XF86Audio{Raise,Lower}Volume
+	$HOME/.config/sxhkd/audio_control {i,d}
+
+# pulse audio input/output mute control
+XF86AudioMute
+	pactl set-sink-mute $(pactl get-default-sink) toggle
+XF86AudioMicMute
+	pactl set-source-mute $(pactl get-default-source) toggle
+
+# headset audio control
+# steelseries headset controls
+XF86Audio{Play,Next,Prev,Stop}
+	$HOME/.config/sxhkd/steelseries-buttons {tp,n,p,s}
+
+# bracklight control
+# XF86MonBrightness{Up,Down}
+# 	xbacklight {-inc,-dec} 10 -steps 25
+
+# open calculator
+XF86Calculator
+	rofi -show calc -no-show-match -no-sort
+
+# open thunderbird
+XF86Mail
+	thunderbird
+
+# poweroff
+super + alt + ctrl + p
+  loginctl poweroff
+
+# reboot
+super + alt + ctrl + r
+  loginctl reboot
+
+#
+# bspwm hotkeys
+#
+
+# quit/restart bspwm
+super + shift + {q,r}
+	bspc {quit,wm -r}
+
+# close and kill
+super + {_,shift + }q
+	bspc node -{c,k}
+
+# alternate between the tiled and monocle layout
+super + m
+	bspc desktop -l next
+
+# cycles through layouts using third party add on (bsp-layout)
+# super + Tab
+# 	bsp-layout next
+# change to default tiled layout
+# super + ctrl + Tab
+# 	bsp-layout set tiled
+
+# send the newest marked node to the newest preselected node
+super + y
+	bspc node newest.marked.local -n newest.!automatic.local
+
+# swap the current node and the biggest window
+super + g
+	bspc node -s biggest.window
+
+#
+# state/flags
+#
+
+# set the window state
+super + {t,shift + t,s,f}
+	bspc node -t {tiled,pseudo_tiled,floating,fullscreen}
+
+# set the node flags
+super + ctrl + {m,x,y,z}
+	bspc node -g {marked,locked,sticky,private}
+
+#
+# focus/swap
+#
+
+# focus the node in the given direction
+super + {_,shift + }{h,j,k,l}
+	bspc node -{f,s} {west,south,north,east}
+super + {_,shift + }{Left,Down,Up,Right}
+	bspc node -{f,s} {west,south,north,east}
+
+# focus the node for the given path jump
+super + {p,b,comma,period}
+	bspc node -f @{parent,brother,first,second}
+
+# focus the next/previous window in the current desktop
+super + {_,shift + }c
+	bspc node -f {next,prev}.local.!hidden.window
+
+# focus the next/previous desktop in the current monitor
+super + bracket{left,right}
+	bspc desktop -f {prev,next}.local
+
+# focus the last node/desktop
+alt + {grave,Tab}
+	bspc {node,desktop} -f last
+# super + {grave,Tab}
+# 	bspc {node,desktop} -f last
+
+# focus the older or newer node in the focus history
+super + {o,i}
+	bspc wm -h off; \
+	bspc node {older,newer} -f; \
+	bspc wm -h on
+
+# focus or send to the given desktop
+super + {_,shift + }{1-9,0}
+	bspc {desktop -f,node -d} '^{1-9,10}' --follow
+
+#
+# preselect
+#
+
+# preselect the direction
+super + ctrl + {h,j,k,l}
+	bspc node -p {west,south,north,east}
+super + ctrl + {Left,Down,Up,Right}
+	bspc node -p {west,south,north,east}
+
+# preselect the ratio
+super + ctrl + {1-9}
+	bspc node -o 0.{1-9}
+
+# cancel the preselection for the focused node
+super + ctrl + space
+	bspc node -p cancel
+
+# cancel the preselection for the focused desktop
+super + ctrl + shift + space
+	bspc query -N -d | xargs -I id -n 1 bspc node id -p cancel
+
+#
+# move/resize
+#
+
+# better resize
+super + alt + {Left,Down,Up,Right}
+    {bspc node @parent/second -z left -10 0; \
+    bspc node @parent/first -z right -10 0, \
+    bspc node @parent/second -z top 0 +10; \
+    bspc node @parent/first -z bottom 0 +10, \
+    bspc node @parent/first -z bottom 0 -10; \
+    bspc node @parent/second -z top 0 -10, \
+    bspc node @parent/first -z right +10 0; \
+    bspc node @parent/second -z left +10 0}
+
+# expand a window by moving one of its side outward
+super + alt + {h,j,k,l}
+	bspc node -z {left -20 0,bottom 0 20,top 0 -20,right 20 0}
+
+# contract a window by moving one of its side inward
+super + alt + shift + {h,j,k,l}
+	bspc node -z {right -20 0,top 0 20,bottom 0 -20,left 20 0}
+
+# move a floating window
+#super + ctrl + {Left,Down,Up,Right}
+#	bspc node -v {-20 0,0 20,0 -20,20 0}

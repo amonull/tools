@@ -1,0 +1,23 @@
+#!/usr/bin/bash
+
+volume_device=$(pactl get-default-sink)
+mic=$(pactl get-default-source)
+
+increase() {
+    pactl set-sink-volume $volume_device +10%
+}
+
+decrease() {
+    pactl set-sink-volume $volume_device -10%
+}
+
+################
+## Start Point##
+################
+
+# the $1 is gotten when user gives the script an argument
+if [[ "$1" == "i" ]]; then
+    increase
+elif [[ "$1" == "d" ]]; then
+    decrease
+fi
