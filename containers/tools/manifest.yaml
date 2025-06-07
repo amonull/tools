@@ -35,7 +35,8 @@ container:
           cd yay
           makepkg -si --noconfirm
         post:
-        - printf "%s\\n" 1 | yay --noconfirm ani-cli
+        - printf "%s\\n" 1 | yay --noconfirm ani-cli-git
+        - printf "%s\\n" 1 | yay --noconfirm ani-skip-git
         - printf "%s\\n" 1 | yay --noconfirm mangal
         - echo '[ -f "$HOME/.aliasrc" ] && . "$HOME/.aliasrc"' >> "$HOME/.bashrc"
     autostart:
