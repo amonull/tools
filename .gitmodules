@@ -4,3 +4,6 @@
 [submodule "customization/.config"]
 	path = customization/.config
 	url = https://github.com/amonull/config
+[submodule "customization/themes"]
+	path = customization/themes
+	url = https://github.com/amonull/Themes.git
